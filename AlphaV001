@@ -19,7 +19,7 @@ class OpenTokenize:#our own special class, no steal
 
         self.loweredtext=[y.lower() for y in self.removed]
 
-    def ConvertListToStr(self):
+    def convert_list_to_str(self):
 
         self.string = ''.join(self.loweredtext)
 
