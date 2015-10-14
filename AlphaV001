@@ -1,0 +1,88 @@
+__author__ = 'max'
+import re
+
+class OpenTokenize:#our own special class, no steal
+
+    def OpenText(self):
+
+        for element in files:#This opens files
+            with open(element,'r') as fin:#FAPFAPFAP
+                #filename = fin.name
+                #filename = filename.rsplit('/')[-1]
+                self.text = fin.read()
+
+    def clean_text(self):
+
+        self.removed = re.sub(r'{.+}{.+}|\|',' ',self.text)#removes stuff.
+
+    def MakeLower(self):
+
+        self.loweredtext=[y.lower() for y in self.removed]
+
+    def ConvertListToStr(self):
+
+        self.string = ''.join(self.loweredtext)
+
+    def tokenize(self):
+
+        #data = data.lower() #Convert to lowercase
+        self.tokinized = re.findall(r'\b(?:\d+\.\d+)|(?:[a-z]+\'[a-z]+|[a-z]+\'|\'[a-z]+)|\w+(?:-\w+)*|\S\b',
+                                    self.string) #Tokenize
+        print(self.tokinized)
+
+#Here is our Linked List!
+class Node:
+    def __init__(self,data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None#None because it is empty at creation
+        self.tail = None#None because it is empty at creation
+
+    def AddNode(self,data):
+        new_node = Node(data)
+
+        if self.head == None:#if empty
+            self.head = new_node #Creates a list
+
+        if self.tail != None:
+            self.tail.next = new_node
+
+        self.tail = new_node #Adds number last.
+
+
+    def RemoveNode(self,index):
+        prev = None
+        node = self.head
+        i = 0
+
+        while (node !=None) and (i < index):
+            prev = node
+            node = node.next
+            i += 1
+
+        if prev == None:
+            self.head = node.next
+        else:
+            prev.next = node.next
+
+
+    def PrintList(self):
+        node = self.head
+        while node != None:
+            print(node.data)
+            node = node.next
+        print(type(node))
+
+
+#
+files = (['/home/max/Hämtningar/Pulle.sub',
+          '/home/max/Hämtningar/Weoo.txt'])
+read = OpenTokenize()
+read.OpenText()
+read.clean_text()
+read.MakeLower()
+read.ConvertListToStr()
+read.tokenize()
