@@ -28,10 +28,15 @@ class OpenTokenize:
        
         self.tokenized = re.findall(r'\b[a-z]+\.[a-z]+\.[a-z]+|(?:\d+\.\d+)|(?:\d+\,\d+)|(?:\d+\:\d+)|[a-z]+\'[a-z]+|[a-z]+\'|\'[a-z]+|\w+(?:-\w+)*|\S\b',
                                     self.string) #Tokenize
-        self.tokenized = ' '.join(self.tokenized) #Convert back to string
-        self.tokenized = re.sub(r' ','\n', self.tokenized) #Replace space with newline
+        #self.tokenized = ' '.join(self.tokenized) #Convert back to string
+        #self.tokenized = re.sub(r' ','\n', self.tokenized) #Replace space with newline
         
-        print(self.tokenized)
+
+    def find_trigrams(self):
+
+        self.trigrams = list(zip(self.tokenized, self.tokenized[1:], self.tokenized[2:]))
+        print(self.trigrams)
+
 class Node(object):
     
     def __init__(self, data):
@@ -72,7 +77,7 @@ class LinkedList():
             print(node.data)
             node = node.next
 
-files = (['/home/stp14/filtorn/programmering_2/projekt/Pulle.sub'])
+files = ([r'C:\Users\Filip\prototyp\Pulle.sub'])
 read = OpenTokenize()
 
 read.OpenText()
@@ -80,3 +85,4 @@ read.clean_text()
 read.make_lower()
 read.convert_list_to_str()
 read.tokenize()
+read.find_trigrams()
