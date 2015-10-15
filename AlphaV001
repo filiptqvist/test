@@ -10,32 +10,24 @@ class OpenTokenize:
                 self.text = fin.read()
 
     def clean_text(self):
-
         self.cleaned = re.sub(r'{.+}{.+}|\|',' ',self.text)
         self.cleaned = re.sub(r'"','', self.cleaned)
         #self.removed = re.sub(r'\|','',self.removed)
 
     def make_lower(self):
-
         self.lowered_text=[y.lower() for y in self.cleaned]
 
     def convert_list_to_str(self):
-
         self.string = ''.join(self.lowered_text)
-        #print(self.string)
-    def tokenize(self):
 
-       
+    def tokenize(self):
         self.tokenized = re.findall(r'\b[a-z]+\.[a-z]+\.[a-z]+|(?:\d+\.\d+)|(?:\d+\,\d+)|(?:\d+\:\d+)|[a-z]+\'[a-z]+|[a-z]+\'|\'[a-z]+|\w+(?:-\w+)*|\S\b',
                                     self.string) #Tokenize
-        #self.tokenized = ' '.join(self.tokenized) #Convert back to string
-        #self.tokenized = re.sub(r' ','\n', self.tokenized) #Replace space with newline
-        
 
     def find_trigrams(self):
 
         self.trigrams = list(zip(self.tokenized, self.tokenized[1:], self.tokenized[2:]))
-        print(self.trigrams)
+
 
 class Node(object):
     
@@ -86,3 +78,11 @@ read.make_lower()
 read.convert_list_to_str()
 read.tokenize()
 read.find_trigrams()
+
+linked_list = LinkedList()
+
+for trigram in read.trigrams: # Loops all trigrams into the linked list
+    linked_list.AddNode(trigram)
+
+linked_list.PrintList()
+
