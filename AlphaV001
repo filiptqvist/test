@@ -1,88 +1,84 @@
-__author__ = 'max'
 import re
-
-class OpenTokenize:#our own special class, no steal
+class OpenTokenize:
 
     def OpenText(self):
 
-        for element in files:#This opens files
-            with open(element,'r') as fin:#FAPFAPFAP
+        for element in files:
+            with open(element,'r') as fin:
                 #filename = fin.name
                 #filename = filename.rsplit('/')[-1]
                 self.text = fin.read()
 
     def clean_text(self):
 
-        self.removed = re.sub(r'{.+}{.+}|\|',' ',self.text)#removes stuff.
+        self.cleaned = re.sub(r'{.+}{.+}|\|',' ',self.text)
+        self.cleaned = re.sub(r'"','', self.cleaned)
+        #self.removed = re.sub(r'\|','',self.removed)
 
-    def MakeLower(self):
+    def make_lower(self):
 
-        self.loweredtext=[y.lower() for y in self.removed]
+        self.lowered_text=[y.lower() for y in self.cleaned]
 
     def convert_list_to_str(self):
 
-        self.string = ''.join(self.loweredtext)
-
+        self.string = ''.join(self.lowered_text)
+        #print(self.string)
     def tokenize(self):
 
-        #data = data.lower() #Convert to lowercase
-        self.tokinized = re.findall(r'\b(?:\d+\.\d+)|(?:[a-z]+\'[a-z]+|[a-z]+\'|\'[a-z]+)|\w+(?:-\w+)*|\S\b',
+       
+        self.tokenized = re.findall(r'\b(?:[a-z]+\.[a-z])+|(?:\d+\.\d+)|(?:\d+\:\d+)|[a-z]+\'[a-z]+|[a-z]+\'|\'[a-z]+|\w+(?:-\w+)*|\S\b',
                                     self.string) #Tokenize
-        print(self.tokinized)
-
-#Here is our Linked List!
-class Node:
-    def __init__(self,data):
+        
+        print(self.tokenized)
+class Node(object):
+    
+    def __init__(self, data):
         self.data = data
         self.next = None
 
-class LinkedList:
+class LinkedList():
     def __init__(self):
-        self.head = None#None because it is empty at creation
-        self.tail = None#None because it is empty at creation
+        self.head = None
+        self.tail = None
 
     def AddNode(self,data):
         new_node = Node(data)
-
-        if self.head == None:#if empty
-            self.head = new_node #Creates a list
-
+        
+        if self.head == None:
+            self.head = new_node
         if self.tail != None:
             self.tail.next = new_node
-
-        self.tail = new_node #Adds number last.
-
-
-    def RemoveNode(self,index):
-        prev = None
+        self.tail = new_node
+    
+    def RemoveNode(self, index):
+        prev = Node
         node = self.head
         i = 0
 
-        while (node !=None) and (i < index):
+        while (node != None) and (i < index):
             prev = node
             node = node.next
             i += 1
-
         if prev == None:
             self.head = node.next
         else:
             prev.next = node.next
-
 
     def PrintList(self):
         node = self.head
         while node != None:
             print(node.data)
             node = node.next
-        print(type(node))
 
-
-#
-files = (['/home/max/Hämtningar/Pulle.sub',
-          '/home/max/Hämtningar/Weoo.txt'])
+files = (['/home/stp14/filtorn/programmering_2/projekt/Pulle.sub'])
 read = OpenTokenize()
+
 read.OpenText()
 read.clean_text()
-read.MakeLower()
-read.ConvertListToStr()
+read.make_lower()
+read.convert_list_to_str()
 read.tokenize()
+
+
+
+
