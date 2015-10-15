@@ -26,8 +26,10 @@ class OpenTokenize:
     def tokenize(self):
 
        
-        self.tokenized = re.findall(r'\b(?:[a-z]+\.[a-z])+|(?:\d+\.\d+)|(?:\d+\:\d+)|[a-z]+\'[a-z]+|[a-z]+\'|\'[a-z]+|\w+(?:-\w+)*|\S\b',
+        self.tokenized = re.findall(r'\b[a-z]+\.[a-z]+\.[a-z]+|(?:\d+\.\d+)|(?:\d+\,\d+)|(?:\d+\:\d+)|[a-z]+\'[a-z]+|[a-z]+\'|\'[a-z]+|\w+(?:-\w+)*|\S\b',
                                     self.string) #Tokenize
+        self.tokenized = ' '.join(self.tokenized) #Convert back to string
+        self.tokenized = re.sub(r' ','\n', self.tokenized) #Replace space with newline
         
         print(self.tokenized)
 class Node(object):
@@ -78,7 +80,3 @@ read.clean_text()
 read.make_lower()
 read.convert_list_to_str()
 read.tokenize()
-
-
-
-
