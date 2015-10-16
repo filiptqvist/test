@@ -1,4 +1,3 @@
-# skoluppgift
 __author__ = 'max'
 import re
 class OpenTokenize:
@@ -32,14 +31,9 @@ class OpenTokenize:
 
 
     def counter(self):
-            #Using global to acces variables outside local function
-        countword={}#Creates a empty dict
-        for word in self.make_trigrams :
-            if word in countword:
-                countword[word]+=1#counts uniq words
-            else:
-                countword[word]=1#crates key and value
-            print(countword)
+        self.counted_trigrams=[[x,self.make_trigrams.count(x)] for x in set(self.make_trigrams)]
+        print(self.counted_trigrams)
+        print(type(self.counted_trigrams))
 
 class Node(object):
 
@@ -101,9 +95,9 @@ read.counter()
 
 linked_list = LinkedList()
 
-for trigram in read.make_trigrams: # Loops all trigrams into the linked list
+for trigram in read.counted_trigrams: # Loops all trigrams into the linked list
      linked_list.AddNode(trigram)
 
-#linked_list.PrintList()
+linked_list.PrintList()
 
 
