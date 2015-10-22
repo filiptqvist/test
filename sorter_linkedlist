@@ -75,14 +75,13 @@ class unorderedList:
         else:
             previous.setNext(current.getNext())
 
-    def PrintListen(self,d):
-        node = self.head
-        d = self.head
-        while d != None:
-            print(node.data)
+    def PrintListen(self, node):
+        while node:
+            print(filename+':',node.data)
             node = node.next
 
 
+#function that sorts my list
 def insertionSort(h):
     if h == None:
         return None
@@ -107,13 +106,6 @@ def insertionSort(h):
             search.next= curr
     return sortedList
 
-def printList(d):
-    s=''
-    while d:
-        s+=str(d.data)
-        d=d.next
-    print(s)
-
 
 #List of our subtitle texts
 files = ([r'/home/max/Hämtningar/pulp_fiction.sub',
@@ -125,9 +117,9 @@ files = ([r'/home/max/Hämtningar/pulp_fiction.sub',
 #each time a file is open it runs our classes with the select methods.
 for element in files:
         with open(element,'r') as fin:
-                #filename = fin.name
-                #filename = filename.rsplit('/')[-1]
-            text = fin.read()
+                filename = fin.name
+                filename = filename.rsplit('/')[-1]
+                text = fin.read()
         read = OpenTokenize()
         read.clean_text()
         read.make_lower()
@@ -138,7 +130,12 @@ for element in files:
         linked_list = unorderedList()
         for trigram in read.counted_trigrams: # Loops all trigrams into the linked list
             linked_list.add(trigram)
-        result = insertionSort(linked_list.head)
-        d = result
-        printList(d)
-        
+        result = insertionSort(linked_list.head)#saves my sorted list in a variable result
+        #printList(d)
+        #insertionSort(linked_list.head)
+        linked_list.PrintListen(result)
+
+#search algoritm that finds a specific n-gram
+
+
+
