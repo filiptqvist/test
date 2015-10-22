@@ -1,8 +1,9 @@
 import re
+from collections import Counter
 class OpenTokenize(object):
 
     def OpenText(self):
-        apa = 2
+        '''placeholder'''
 
     def clean_text(self):
         self.cleaned = re.sub(r'{.+}{.+}|\|',' ',text)
@@ -10,7 +11,7 @@ class OpenTokenize(object):
         #self.removed = re.sub(r'\|','',self.removed)
 
     def make_lower(self):
-        self.lowered_text=[y.lower() for y in self.cleaned]
+        self.lowered_text=[character.lower() for character in self.cleaned]
 
     def convert_list_to_str(self):
         self.string = ''.join(self.lowered_text)
@@ -18,25 +19,27 @@ class OpenTokenize(object):
     def tokenize(self):
         self.tokenized = re.findall(r'\b[a-z]+\.[a-z]+\.[a-z]+|[a-z]+\.[a-z]+\.|\d+\.\d+|\d+\,\d+|\d+\:\d+|\d+\/\d+|\.{2,}|[a-z]+\'[a-z]+|[$€]\d+(?:[\.\,]\d+)*|[a-z]+\'|\'[a-z]+|\w+(?:-\w+)*|\S\b',
                                     self.string) #Tokenize
-#Ph.D.
+
 
     def find_trigrams(self):
 
         self.make_trigrams = list(zip(self.tokenized, self.tokenized[1:], self.tokenized[2:]))
-
+        return self.make_trigrams
 
     def counter(self):
         self.counted_trigrams=[[self.make_trigrams.count(x),x] for x in set(self.make_trigrams)]
 
 
-    def selection_sort(self):
+
+    def selection_sort(self): #Sorts from higher to lower
 
 
-        # Loop through the entire array
+        # Loop through the entire list
         for cur_pos in range(len(self.counted_trigrams)):
             # Find the position that has the smallest number
-            # Start with the current position
-            min_pos = cur_pos
+            
+
+            min_pos = cur_pos # Start with the current position
 
             # Scan left to right (end of the list)
             for scan_pos in range(cur_pos + 1, len(self.counted_trigrams)):
@@ -44,7 +47,7 @@ class OpenTokenize(object):
 
                 if self.counted_trigrams[scan_pos] > self.counted_trigrams[min_pos]:
 
-                # It is, mark this position as the smallest
+                #If it is, mark this position as the smallest
                     min_pos = scan_pos
 
         # Swap the two values
@@ -54,7 +57,7 @@ class OpenTokenize(object):
 
 
 #insertion sort goes to the left.
-    def insertion_sort(self):
+    def insertion_sort(self): #Sorts from lower to higher
         for index in range(1,len(self.counted_trigrams)):
 
             currentvalue = self.counted_trigrams[index]
@@ -107,12 +110,17 @@ class LinkedList():
             print(filename+':',node.data)
             node = node.next
 
-
+    def PrintTotal(self):
+        node = self.head
+        while node != None:
+            print('Total:',node.data)
+            node = node.next
 
 files = (['/home/stp14/filtorn/programmering_2/projekt/top_gun.sub','/home/stp14/filtorn/programmering_2/projekt/pulp_fiction.sub'])
 
 
 
+totaldict = {}
 
 for element in files:
         with open(element,'r') as fin:
@@ -127,12 +135,21 @@ for element in files:
         read.tokenize()
         read.find_trigrams()
         read.counter()
-        #read.insertion_sort() #Sorts from lower to higher
-        read.selection_sort() #Sorts from higher to lower
+        for i in read.make_trigrams:
+            if i in totaldict:
+                totaldict[i] += 1
+            else:
+                totaldict[i] = 1
+        read.insertion_sort() #Sorts from lower to higher
+        #read.selection_sort() #Sorts from higher to lower
         for trigram in read.counted_trigrams: # Loops all trigrams into the linked list
             linked_list.AddNode(trigram)
         linked_list.PrintList()
 
 
-            
 
+
+total = [[v, k] for k, v in totaldict.items()]
+for trigram in total:
+    linked_list.AddNode(trigram)
+linked_list.PrintTotal()
