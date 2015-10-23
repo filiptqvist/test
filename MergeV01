@@ -1,0 +1,150 @@
+import re
+
+class OpenTokenize(object):
+
+    def OpenText(self):
+        print("hej")
+#        for element in files:
+#            with open(element,'r') as fin:
+#                #filename = fin.name
+#                #filename = filename.rsplit('/')[-1]
+#                self.text = fin.read()
+
+
+
+    def clean_text(self):
+        self.cleaned = re.sub(r'{.+}{.+}|\|',' ',text)
+        self.cleaned = re.sub(r'"','', self.cleaned)
+        #self.removed = re.sub(r'\|','',self.removed)
+
+    def make_lower(self):
+        self.lowered_text=[y.lower() for y in self.cleaned]
+
+    def convert_list_to_str(self):
+        self.string = ''.join(self.lowered_text)
+
+    def tokenize(self):
+        self.tokenized = re.findall(r'\b[a-z]+\.[a-z]+\.[a-z]+|(?:\d+\.\d+)|(?:\d+\,\d+)|(?:\d+\:\d+)|[a-z]+\'[a-z]+|[a-z]+\'|\'[a-z]+|\w+(?:-\w+)*|\S\b',
+                                    self.string) #Tokenize
+
+    def find_trigrams(self):
+
+        self.make_trigrams = list(zip(self.tokenized, self.tokenized[1:], self.tokenized[2:]))
+        return self.make_trigrams #####################################################################
+
+    def counter(self):
+        self.counted_trigrams=[[self.make_trigrams.count(x),x] for x in set(self.make_trigrams)]
+
+
+class Node:
+    def __init__(self, initdata):
+        self.data = initdata
+        self.next = None
+
+
+class unorderedList:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def add(self, data):
+        new_node = Node(data)
+        #Creates a list, head is first item the followes by tail which keeps addingitems to the list.
+        if self.head == None:#if empty
+            self.head = new_node #Creates a list, head is first item
+
+        if self.tail != None:
+            self.tail.next = new_node
+
+        self.tail = new_node #Adds number last.
+
+    def remove(self, item):
+        current = self.head
+        previous = None
+        found = False
+        while not found:
+            if current.getData() == item:
+                found = True
+            else:
+                previous = current
+                current = current.getNext()
+
+        if previous == None:
+            self.head = current.getNext()
+        else:
+            previous.setNext(current.getNext())
+
+    def PrintListen(self, node):
+        while node:
+            print(filename+':',node.data)
+            node = node.next
+    def PrintTotal(self):         ##########################################
+        node = self.head
+        while node != None:
+            print('Total:',node.data)
+            node = node.next
+
+#function that sorts my list
+def insertionSort(h):
+    if h == None:
+        return None
+    #Make the first node the start of the sorted list.
+    sortedList= h
+    h=h.next
+    sortedList.next= None
+    while h != None:
+        curr= h
+        h=h.next
+        if curr.data<sortedList.data:
+            #Moves nodes forward
+            curr.next= sortedList
+            sortedList= curr
+        else:
+            #Search list for correct position of current.
+            search= sortedList
+            while search.next!= None and curr.data > search.next.data:
+                search= search.next
+            #current goes after search.
+            curr.next= search.next
+            search.next= curr
+    return sortedList
+
+#List of our subtitle texts
+files = ([r'C:\\Users\\Filip\\prototyp\\pulp_fiction.sub',r'C:\\Users\\Filip\\prototyp\\top_gun.sub'])
+totaldict = {} ###################################################
+
+#Where the magic happens
+#each time a file is open it runs our classes with the select methods.
+linked_list = unorderedList()
+for element in files:
+        with open(element,'r') as fin:
+                filename = fin.name
+                filename = filename.rsplit('\\')[-1]
+                text = fin.read()
+        read = OpenTokenize()
+        read.clean_text()
+        read.make_lower()
+        read.convert_list_to_str()
+        read.tokenize()
+        read.find_trigrams()
+        read.counter()
+
+        for i in read.make_trigrams: #############################################
+            if i in totaldict:
+                totaldict[i] += 1
+            else:
+                totaldict[i] = 1
+        for trigram in read.counted_trigrams: # Loops all trigrams into the linked list
+            linked_list.add(trigram)
+        result = insertionSort(linked_list.head)#saves my sorted list in a variable result
+        #printList(d)
+        #insertionSort(linked_list.head)
+        linked_list.PrintListen(result)
+
+#search algoritm that finds a specific n-gram
+
+
+total = [[v, k] for k, v in totaldict.items()] ###################################################
+for trigram in total:
+    linked_list.add(trigram)
+linked_list.PrintTotal()
