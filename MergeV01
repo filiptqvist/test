@@ -13,7 +13,7 @@ class OpenTokenize(object):
 
 
     def clean_text(self):
-        self.cleaned = re.sub(r'{.+}{.+}|\|',' ',text)
+        self.cleaned = re.sub(r'{.+}{.+}|\||<.+>|[.+]',' ',text)
         self.cleaned = re.sub(r'"','', self.cleaned)
         #self.removed = re.sub(r'\|','',self.removed)
 
@@ -24,7 +24,7 @@ class OpenTokenize(object):
         self.string = ''.join(self.lowered_text)
 
     def tokenize(self):
-        self.tokenized = re.findall(r'\b[a-z]+\.[a-z]+\.[a-z]+|(?:\d+\.\d+)|(?:\d+\,\d+)|(?:\d+\:\d+)|[a-z]+\'[a-z]+|[a-z]+\'|\'[a-z]+|\w+(?:-\w+)*|\S\b',
+        self.tokenized = re.findall(r'\b[a-z]+\.[a-z]+\.[a-z]+|[a-z]+\.[a-z]+\.|\d+\.\d+|\d+\,\d+|\d+\:\d+|\d+\/\d+|\.{2,}|[a-z]+\'[a-z]+|[$€]\d+(?:[\.\,]\d+)*|[a-z]+\'|\'[a-z]+|\w+(?:-\w+)*|\S\b',
                                     self.string) #Tokenize
 
     def find_trigrams(self):
@@ -78,9 +78,8 @@ class unorderedList:
         while node:
             print(filename+':',node.data)
             node = node.next
-    def PrintTotal(self):         ##########################################
-        node = self.head
-        while node != None:
+    def PrintTotal(self, node):
+        while node:
             print('Total:',node.data)
             node = node.next
 
@@ -110,7 +109,7 @@ def insertionSort(h):
     return sortedList
 
 #List of our subtitle texts
-files = ([r'C:\\Users\\Filip\\prototyp\\pulp_fiction.sub',r'C:\\Users\\Filip\\prototyp\\top_gun.sub'])
+files = ([r'C:\\Users\\Filip\\prototyp\\subs\\pulp_fiction.sub',r'C:\\Users\\Filip\\prototyp\\subs\\top_gun.sub'])
 totaldict = {} ###################################################
 
 #Where the magic happens
@@ -136,10 +135,7 @@ for element in files:
                 totaldict[i] = 1
         for trigram in read.counted_trigrams: # Loops all trigrams into the linked list
             linked_list.add(trigram)
-        result = insertionSort(linked_list.head)#saves my sorted list in a variable result
-        #printList(d)
-        #insertionSort(linked_list.head)
-        linked_list.PrintListen(result)
+        linked_list.PrintListen(insertionSort(linked_list.head))
 
 #search algoritm that finds a specific n-gram
 
@@ -147,4 +143,4 @@ for element in files:
 total = [[v, k] for k, v in totaldict.items()] ###################################################
 for trigram in total:
     linked_list.add(trigram)
-linked_list.PrintTotal()
+linked_list.PrintTotal(insertionSort(linked_list.head))
