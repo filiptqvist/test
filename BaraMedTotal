@@ -3,15 +3,6 @@ import re
 
 class OpenTokenize(object):
 
-    def OpenText(self):
-        print("hej")
-#        for element in files:
-#            with open(element,'r') as fin:
-#                #filename = fin.name
-#                #filename = filename.rsplit('/')[-1]
-#                self.text = fin.read()
-
-
 
     def clean_text(self):
         self.cleaned = re.sub(r'{.+}{.+}|\||<.+>|[.+]|#',' ',text)
@@ -110,18 +101,20 @@ def insertionSort(h):
     return sortedList
 
 #List of our subtitle texts
-files = ([r'C:\\Users\\Filip\\prototyp\\subs\\the_dark_knight.sub',
-          r'C:\\Users\\Filip\\prototyp\\subs\\schindlers_list.sub',
-          r'C:\\Users\\Filip\\prototyp\\subs\\the_good_the_bad_and_the_ugly.sub',])
+files = ([
+r'/home/stp14/filtorn/programmering_2/projekt/the_godfather_part_II.sub',
+r'/home/stp14/filtorn/programmering_2/projekt/the_shawshank_redemption.sub', 
+r'/home/stp14/filtorn/programmering_2/projekt/12_angry_men.sub',
+r'/home/stp14/filtorn/programmering_2/projekt/the_godfather.sub',
+r'/home/stp14/filtorn/programmering_2/projekt/the_dark_knight.sub'])
+
 totaldict = {} ###################################################
 
 #Where the magic happens
 #each time a file is open it runs our classes with the select methods.
 linked_list = unorderedList()
 for element in files:
-        with open(element,'r') as fin:
-                filename = fin.name
-                filename = filename.rsplit('\\')[-1]
+        with open(element,'r', encoding='latin-1') as fin:
                 text = fin.read()
         read = OpenTokenize()
         read.clean_text()
