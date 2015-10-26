@@ -31,11 +31,26 @@ class linkedList:
         temp = Node(item)
         temp.setNext(self.head)
         self.head = temp
-        
+    def Print(self, node):#Print method
+        while node:
+            print('Total:',node.data)#gets the data from our nodes
+            node = node.next#Then goes to the next node. This way we are priting the entire list.
+    def search(self, item):#To use this search instanced variable name like this, x.search([28, ('is', 'better', 'than')]) It needs to be the whole item.
+        current = self.head#starts to check at the beggining of list.
+        found = False#Default False.
+        while current != None and not found:#Boleean expression regulates that our loop will actually try  to look for our item
+            if current.getData() == item:
+                found = True#If item is in our list it gets true
+                print(found)
+            else:
+                current = current.getNext()#Checks next item
+
+        return found#returns found, if found is true then it is true that the item is in our list, than
 mylist = linkedList()
+
 for t in adjectives:
     mylist.add(t)
-#print(mylist)
+
 
    
 file= open (r'/home/stp14/filtorn/programmering_2/projekt/shawnm_mahin/lexikon.txt','r')
@@ -76,14 +91,6 @@ def insertionSort(h):
             search.next= curr
     return sortedList
 
-def printList(d):
-    s=''
-    while d:
-        s+=str(d.data)+">"
-        d=d.next
-    print (s[:-2])
-
-l= linkedList()
-h= l.head
-printList(h)
-printList(insertionSort(l.head))
+linked_list= linkedList()
+linked_list.Print(linked_list.head)
+linked_list.search('HOLY')
