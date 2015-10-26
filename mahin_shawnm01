@@ -33,7 +33,7 @@ class linkedList:
         self.head = temp
     def Print(self, node):#Print method
         while node:
-            print('Total:',node.data)#gets the data from our nodes
+            print(node.data)#gets the data from our nodes
             node = node.next#Then goes to the next node. This way we are priting the entire list.
     def search(self, item):#To use this search instanced variable name like this, x.search([28, ('is', 'better', 'than')]) It needs to be the whole item.
         current = self.head#starts to check at the beggining of list.
@@ -41,15 +41,13 @@ class linkedList:
         while current != None and not found:#Boleean expression regulates that our loop will actually try  to look for our item
             if current.getData() == item:
                 found = True#If item is in our list it gets true
-                print(found)
+
             else:
                 current = current.getNext()#Checks next item
 
-        return found#returns found, if found is true then it is true that the item is in our list, than
-mylist = linkedList()
+        return print(found)#returns found, if found is true then it is true that the item is in our list, than
 
-for t in adjectives:
-    mylist.add(t)
+
 
 
    
@@ -92,5 +90,7 @@ def insertionSort(h):
     return sortedList
 
 linked_list= linkedList()
+for t in adjectives:
+    linked_list.add(t)
 linked_list.Print(linked_list.head)
-linked_list.search('HOLY')
+linked_list.search('GHASTLY')
