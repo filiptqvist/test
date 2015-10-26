@@ -1,0 +1,89 @@
+import re
+
+file= open (r'/home/stp14/filtorn/programmering_2/projekt/shawnm_mahin/poe.txt','r') 
+text = file.read() #>> here will Saving fin.read() to a
+find_ly=(re.findall(r'\b(\w+ly)\b',text))
+adjectives = [element.upper() for element in find_ly]
+adjectives.sort()
+
+class Node:
+    def __init__(self,initdata):
+        self.data = initdata
+        self.next = None
+
+    def getData(self):
+        return self.data
+
+    def getNext(self):
+        return self.next
+
+    def setData(self,newdata):
+        self.data = newdata
+
+    def setNext(self,newnext):
+        self.next = newnext
+
+class linkedList:
+    def __init__(self):
+        self.head = None
+
+    def add(self,item):
+        temp = Node(item)
+        temp.setNext(self.head)
+        self.head = temp
+        
+mylist = linkedList()
+for t in adjectives:
+    mylist.add(t)
+#print(mylist)
+
+   
+file= open (r'/home/stp14/filtorn/programmering_2/projekt/shawnm_mahin/lexikon.txt','r')
+adjectives_comparewith = file.read()
+
+adjectives_comparewith = re.findall(r'[A-Z][a-z]*.+ly, a\.[\S|.]*.*', adjectives_comparewith)#find -ly ending adjectives in the dictionary a\.'
+
+for adj in adjectives:
+    aa = adj.lower()#change the found words from uppercase to lowercase to match the words found in our text with the dictionary words
+    #print(aa)
+    for let in adjectives_comparewith:
+        ss = re.sub(r'[\W_]+', '', let)#strip the dictionary words from symbols
+        ss = ss[:-1] 
+        if aa in ss:
+            print(aa)#print the common words found in the text and in the dictionary, but it just finds 2 instead of 3!
+
+def insertionSort(h):
+    if h == None:
+        return None
+    #Make the first node the start of the sorted list.
+    sortedList= h
+    h=h.next
+    sortedList.next= None
+    while h != None:
+        curr= h
+        h=h.next
+        if curr.data<sortedList.data:
+            #Advance the nodes
+            curr.next= sortedList
+            sortedList= curr
+        else: 
+            #Search list for correct position of current.
+            search= sortedList
+            while search.next!= None and curr.data > search.next.data:
+                search= search.next
+            #current goes after search.
+            curr.next= search.next
+            search.next= curr
+    return sortedList
+
+def printList(d):
+    s=''
+    while d:
+        s+=str(d.data)+">"
+        d=d.next
+    print (s[:-2])
+
+l= linkedList()
+h= l.head
+printList(h)
+printList(insertionSort(l.head))
