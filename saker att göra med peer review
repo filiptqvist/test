@@ -1,3 +1,4 @@
 1. Fixa regexen
 2 fixa __str__ metod
 3 fixa en till sort
+4 fixa exceptions
