@@ -1,6 +1,6 @@
 import re
 
-file= open (r'/home/stp14/filtorn/programmering_2/projekt/shawnm_mahin/poe.txt','r') 
+file= open (r'C:\\Users\\Filip\\prototyp\\test.txt','r')
 text = file.read() #>> here will Saving fin.read() to a
 find_ly=(re.findall(r'\b(\w+ly)\b',text))
 adjectives = [element.upper() for element in find_ly]
@@ -33,7 +33,7 @@ class linkedList:
         self.head = temp
     def Print(self, node):#Print method
         while node:
-            print(node.data)#gets the data from our nodes
+            print('Adjectives: '+node.data)#gets the data from our nodes
             node = node.next#Then goes to the next node. This way we are priting the entire list.
     def search(self, item):#To use this search instanced variable name like this, x.search([28, ('is', 'better', 'than')]) It needs to be the whole item.
         current = self.head#starts to check at the beggining of list.
@@ -50,20 +50,14 @@ class linkedList:
 
 
 
-   
-file= open (r'/home/stp14/filtorn/programmering_2/projekt/shawnm_mahin/lexikon.txt','r')
+
+file= open (r'C:\\Users\\Filip\\prototyp\\lexikon.txt','r')
 adjectives_comparewith = file.read()
 
-adjectives_comparewith = re.findall(r'[A-Z][a-z]*.+ly, a\.[\S|.]*.*', adjectives_comparewith)#find -ly ending adjectives in the dictionary a\.'
+adjectives_comparewith = re.findall(r'\b[A-Z][a-z]*.+ly\b, a\.', adjectives_comparewith)#find -ly ending adjectives in the dictionary a\.'
+#adjectives_comparewith = re.findall(r'\b[A-Z][a-z]*.+ly\b, a\.', adjectives_comparewith)#find -ly ending adjectives in the dictionary a\.'
+#Sem`i*month"ly a.
 
-for adj in adjectives:
-    aa = adj.lower()#change the found words from uppercase to lowercase to match the words found in our text with the dictionary words
-    #print(aa)
-    for let in adjectives_comparewith:
-        ss = re.sub(r'[\W_]+', '', let)#strip the dictionary words from symbols
-        ss = ss[:-1] 
-        if aa in ss:
-            print(aa)#print the common words found in the text and in the dictionary, but it just finds 2 instead of 3!
 
 def insertionSort(h):
     if h == None:
@@ -79,7 +73,7 @@ def insertionSort(h):
             #Advance the nodes
             curr.next= sortedList
             sortedList= curr
-        else: 
+        else:
             #Search list for correct position of current.
             search= sortedList
             while search.next!= None and curr.data > search.next.data:
@@ -90,7 +84,21 @@ def insertionSort(h):
     return sortedList
 
 linked_list= linkedList()
-for t in adjectives:
-    linked_list.add(t)
-linked_list.Print(linked_list.head)
-linked_list.search('GHASTLY')
+
+for adj in adjectives:
+    adj = adj.lower()#change the found words from uppercase to lowercase to match the words found in our text with the dictionary words
+    for word in adjectives_comparewith:
+
+        word = word.lower()
+        word = re.sub(r'[\W_]+', '', word)#strip the dictionary words from symbols
+        word = word[:-1]
+
+        if adj == word:
+            linked_list.add(adj)
+
+
+for word in adjectives:
+    print("Words ending with 'ly' in your file: " +word)
+linked_list.Print(insertionSort(linked_list.head))
+
+#linked_list.search()
