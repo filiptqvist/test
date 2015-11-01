@@ -1,10 +1,15 @@
-import re
+import re, traceback, sys
+try:
 
-file= open (r'C:\\Users\\Filip\\prototyp\\test.txt','r')
-text = file.read() #>> here will Saving fin.read() to a
-find_ly=(re.findall(r'\b(\w+ly)\b',text))
-adjectives = [element.upper() for element in find_ly]
-adjectives.sort()
+    file= open (r'C:\\Users\\Filip\\prototyp\\test.txt','r')
+    text = file.read() #>> here will Saving fin.read() to a
+    find_ly=(re.findall(r'\b(\w+ly)\b',text))
+    adjectives = [element.upper() for element in find_ly]
+    adjectives.sort()
+except OSError:
+    print("Your file can not be found. Exiting program.")
+    sys.exit(0)
+
 
 class Node:
     def __init__(self,initdata):
@@ -47,18 +52,30 @@ class linkedList:
 
         return print(found)#returns found, if found is true then it is true that the item is in our list, than
 
+try:
+   file= open (r'C:\\Users\\Filip\\prototyp\\lexikon.txt','r')
 
+except OSError:
+    print("The lexicon file can not be found. Exiting program.")
+    sys.exit(0)
 
-
-
-file= open (r'C:\\Users\\Filip\\prototyp\\lexikon.txt','r')
 adjectives_comparewith = file.read()
-
-adjectives_comparewith = re.findall(r'\b[A-Z][a-z]*.+ly\b, a\.', adjectives_comparewith)#find -ly ending adjectives in the dictionary a\.'
+adjectives_comparewith = re.findall(r'\b[A-Za-z]+.+ly\b,* a\.', adjectives_comparewith)#find -ly ending adjectives in the dictionary a\.'
 #adjectives_comparewith = re.findall(r'\b[A-Z][a-z]*.+ly\b, a\.', adjectives_comparewith)#find -ly ending adjectives in the dictionary a\.'
 #Sem`i*month"ly a.
+#Sem`i*week"ly, a.
 
+linked_list= linkedList()
+for adj in adjectives:
+    adj = adj.lower()#change the found words from uppercase to lowercase to match the words found in our text with the dictionary words
+    for word in adjectives_comparewith:
 
+        word = word.lower()
+        word = re.sub(r'[\W_]+', '', word)#strip the dictionary words from symbols
+        word = word[:-1]
+
+        if adj == word:
+            linked_list.add(adj)
 def insertionSort(h):
     if h == None:
         return None
@@ -82,19 +99,6 @@ def insertionSort(h):
             curr.next= search.next
             search.next= curr
     return sortedList
-
-linked_list= linkedList()
-
-for adj in adjectives:
-    adj = adj.lower()#change the found words from uppercase to lowercase to match the words found in our text with the dictionary words
-    for word in adjectives_comparewith:
-
-        word = word.lower()
-        word = re.sub(r'[\W_]+', '', word)#strip the dictionary words from symbols
-        word = word[:-1]
-
-        if adj == word:
-            linked_list.add(adj)
 
 
 for word in adjectives:
