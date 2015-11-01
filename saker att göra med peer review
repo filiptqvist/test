@@ -1,4 +1,4 @@
-1. Fixa regexen
+1. Fixa regexen <--- den är fan rätt bra nu ändå, vi skiter i det för tillfället
 2 fixa __str__ metod
 3 fixa en till sort
-4 fixa exceptions
+4 fixa exceptions <--- tror att jag gjort det här nu
