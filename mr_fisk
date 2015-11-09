@@ -1,0 +1,178 @@
+
+import re, traceback, sys
+try:
+
+    file= open(r'/home/stp14/filtorn/programmering_2/projekt/shawnm_mahin/poe.txt','r')
+    text = file.read() #>> here will Saving fin.read() to a
+    find_ly=(re.findall(r'\b(\w+ly)\b',text))
+    adjectives = [element.upper() for element in find_ly]
+    adjectives.sort()
+except OSError:
+    print("Your file can not be found. Exiting program.")
+    sys.exit(0)
+
+
+class Node:
+    def __init__(self,indata):
+        self.data = indata
+        self.next = None
+
+    def getData(self):
+        return self.data
+
+    def getNext(self):
+        return self.next
+
+    def setData(self,Data):
+        self.data = Data
+
+    def setNext(self,Next):
+        self.next = Next
+
+class linkedList:
+    def __init__(self):
+        self.head = None
+
+        self.Current=self.head
+        self.lastCurrent=None
+        self.length=0
+
+    def add(self,item):
+        temp = Node(item)
+        temp.setNext(self.head)
+        self.head = temp
+
+    def head(self):
+        return self.head
+    def lastCurrent(self):
+        return self.lastCurrent
+
+    def __len__(self):
+         return self.length
+
+    #this function is used to return current node data
+    def get(self):
+        return self.Current.getData()
+
+
+    #geting last index of linked list
+    def print_list(self,node):
+        while node:
+            print('Adjectives: '+node.data)
+            node = node.next
+
+
+    def __str__(self):
+        return str(self.Current.getData())
+
+    def Print(self, node):#Print method
+        while node:
+            print('Adjectives: '+node.data)#gets the data from our nodes
+            node = node.next#Then goes to the next node. This way we are priting the entire list.
+    def search(self, item):#To use this search instanced variable name like this, x.search([28, ('is', 'better', 'than')]) It needs to be the whole item.
+        current = self.head#starts to check at the beggining of list.
+        found = False#Default False.
+        while current != None and not found:#Boleean expression regulates that our loop will actually try  to look for our item
+            if current.getData() == item:
+                found = True#If item is in our list it gets true
+
+            else:
+                current = current.getNext()#Checks next item
+
+        return print(found)#returns found, if found is true then it is true that the item is in our list, than
+
+try:
+   file= open (r'/home/stp14/filtorn/programmering_2/projekt/shawnm_mahin/lexikon.txt','r')
+
+except OSError:
+    print("The lexicon file can not be found. Exiting program.")
+    sys.exit(0)
+
+adjectives_comparewith = file.read()
+adjectives_comparewith = re.findall(r'\b[A-Za-z]+.+ly\b,* a\.', adjectives_comparewith)#find -ly ending adjectives in the dictionary a\.'
+#adjectives_comparewith = re.findall(r'\b[A-Z][a-z]*.+ly\b, a\.', adjectives_comparewith)#find -ly ending adjectives in the dictionary a\.'
+#Sem`i*month"ly a.
+#Sem`i*week"ly, a.
+l=linkedList()
+for adj in adjectives:
+    adj = adj.lower()#change the found words from uppercase to lowercase to match the words found in our text with the dictionary words
+    for word in adjectives_comparewith:
+
+        word = word.lower()
+        word = re.sub(r'[\W_]+', '', word)#strip the dictionary words from symbols
+        word = word[:-1]
+
+        if adj == word:
+            l.add(adj)
+
+def selectionSort(list):
+
+     currentpre=list.head #node before current node
+     current=currentpre.getNext()   #current pionter of linked list
+
+
+     while current!=None:
+        minimum=current       #selecting first node as minimum values node
+        nextprev=current       #previous node for nextinner pointer
+        beforesort=nextprev     #previous not for the pointer with minimum value
+        nextinner=current.getNext()     #node for next inner loop of selection sort
+        #inner loop of  selection sort
+        while nextinner!=None:
+
+            if minimum.getData()>nextinner.getData():   #finding minimum value pointer
+                beforesort=nextprev                     #setting values of pointer to minimum value pointer
+                minimum=nextinner
+            nextprev=nextinner
+            nextinner=nextinner.getNext()
+        # and we did not next next pointer of current node here is code
+        if current.getNext()==minimum :
+            minimumNext=minimum.getNext()   #pointer to next node pointed my minimum node
+            currentpre.setNext(minimum)     #nex pointer of pointer before the current node is to minimum node
+            minimum.setNext(current)        #set minimum next pointer of minimum node to current
+            current.setNext(minimumNext)    #set next pointer of current to next pointer pointed my my minimum pointer
+            current=minimum                 #set current to minimum
+
+        elif current.getNext()!=minimum and current!=minimum:
+                 currentNext=current.getNext()            #pointer pointed my the current node
+                 minimumNext=minimum.getNext()           #pointer to next node pointed my minimum node
+                 currentpre.setNext(minimum)               #set pre-current to minimum pointer
+                 minimum.setNext(currentNext)             #set next pointer of minimum node to currentNext pointer
+                 beforesort.setNext(current)                #setting pre pointer of sorted node to current pointer
+                 current.setNext(minimumNext)               #current pointer next pointer set to next of minimumNext
+                 current=minimum                             #set current to minimum
+        currentpre=current              #set pre-current to current
+        current=current.getNext()       #set current to current ->next
+     #list.show()
+
+
+def insertionSort(h):
+    if h == None:
+        return None
+    #Make the first node the start of the sorted list.
+    sortedList= h
+    h=h.next
+    sortedList.next= None
+    while h != None:
+        curr= h
+        h=h.next
+        if curr.data<sortedList.data:
+            #Advance the nodes
+            curr.next= sortedList
+            sortedList= curr
+        else:
+            #Search list for correct position of current.
+            search= sortedList
+            while search.next!= None and curr.data > search.next.data:
+                search= search.next
+            #current goes after search.
+            curr.next= search.next
+            search.next= curr
+    return sortedList
+for word in adjectives:
+    print("Words ending with 'ly' in your file: " +word)
+
+
+
+#l.Print(insertionSort(l.head))
+selectionSort(l)
+l.Print(l.head)
