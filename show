@@ -1,0 +1,24 @@
+def selectionSort(linkedlist):
+    """
+    performs selection sort on a linked list: swaps nodes by changing values.
+    If the list isn't empty, it compares the first node (head) with the next node,
+    and continue doing that until it reaches the end, then it starts comparing the second node
+    with next node, and so on. If the node you are comparing is greater than another node,
+    swap their positions.
+    """
+    compare = linkedlist.head
+    if compare == None:#if list is empty
+        return None
+    current=compare.next
+    while compare.next!=None:#while compare isnt at tail of list
+        while current!=None:#while there is still a node to compare with
+            if compare.data.lower()>current.data.lower():
+                compare.data,current.data=current.data,compare.data
+                current=current.next#start comparing next node in list
+            else:#if they are correctly ordered already..
+                current=current.next
+        compare=compare.next#move on to next round: update compare & current one step to the right
+        current=compare.next
+    linkedlist.list_print()
+    return linkedlist#when list is sorted, return list.
+
