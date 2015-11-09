@@ -1,0 +1,173 @@
+class Node:
+    '''
+
+    Node class for defining Nodes that contain data and address of next element
+    '''
+    def __init__(self):
+        '''constructor of Node Factory'''
+        self.data=None   #initializing private variable
+        self.Next=None    #private variable for holding address of next node
+
+    #getData function function will return value of current node
+    def getData(self):
+        return self.data
+
+    #getNext function function will return address of current node
+    def getNext(self):
+        return self.Next
+
+    #setData function function will set value of current node
+    def setData(self,data):
+        self.data=data
+
+    #setNext function function will set address field of current node
+    def setNext(self,Next):
+        self.Next=Next
+
+
+class List:
+    '''List
+            this class will use Node class to create a link list
+    '''
+    def __init__(self):
+        '''constructor of list class'''
+        self.headNode=Node()          #defining private head node which i indicator of start piont
+        self.headNode.setNext(None)   #set next to null
+        self.Current=self.headNode  #set current position to start of list
+        self.lastCurrent=None
+        self.length=0
+
+
+    def headNode(self):
+        return self.headNode
+    def lastCurrent(self):
+        return self.lastCurrent
+
+    #function for adding element to the list
+    def Add(self,object):   #this function will take one argument which is data for insertion
+        newNode=Node()          #create new for holding new data
+        newNode.setData(object) #insert data to newly created node
+        newNode.setNext(None)   #set next pointer to null
+        self.length=self.length+1
+        #if current is pionting to head that show is it is the first element in list
+        if self.Current==self.headNode:
+            self.headNode.setNext(newNode)#set next of field of headnode to newnode
+            self.lastCurrent=self.Current   #moving last current to current position
+            self.Current=newNode              #move current pointer to to newnode
+
+        #if current is not pointing to headnode list is not empty
+        else:
+            self.Current.setNext(newNode) #set the next field of current to new object
+            self.lastCurrent=self.Current
+            self.Current=newNode          #move the current field to new node
+
+
+
+    #remove function will remove current element of list list
+    def remove(self):
+        if self.length>0:
+            self.lastCurrent.setNext(self.Current.getNext())
+            self.Current.setNext(None)
+            del self.Current
+           # print self.Current.getData()
+            self.Current=self.lastCurrent.getNext()
+            self.length=self.length-1
+
+    #Deleting a node of a give value
+    def delete(self,data):
+         #   print "here"
+            self.lastCurrent=self.headNode
+            self.Current=self.headNode.getNext()
+          #  print "here"
+            for i in range(0,self.length):
+               # print self.Current.getData()
+                if self.Current.getData() == data:
+                    print (self.Current.getData())
+                    self.lastCurrent.setNext(self.Current.getNext())
+                    self.Current.setNext(None)
+                    del self.Current
+                    self.Current=self.lastCurrent.getNext()
+                    self.length=self.length-1
+                    break
+                self.lastCurrent=self.Current
+                self.Current=self.Current.getNext()
+
+
+    #this function will print length of link list
+    def __len__(self):
+         return self.length
+
+
+    #moving current position to start
+
+    #this function is used to return current node data
+    def get(self):
+        return self.Current.getData()
+
+    #isEmpty function is use to check weither function is empty or not
+    def isEmpty(self):
+        if self.length==0:
+            return True
+
+    #function for displaying list
+    def show(self):
+        self.Current=self.headNode  #move current pointer to starting position
+        while self.Current.getNext()!=None:   #continue reading until the next field become empty
+            self.Current=self.Current.getNext() #move current pionter to next element
+            print (str(self.Current.getData()))#print data of current current element
+    #geting last index of linked list
+
+
+    def __str__(self):
+        return str(self.Current.getData())
+
+def selectionSort(list):
+
+     currentpre=list.headNode #node before current node
+     current=currentpre.getNext()   #current pionter of linked list
+
+
+     while current!=None:
+        minimum=current       #selecting first node as minimum values node
+        nextprev=current       #previous node for nextinner pointer
+        beforesort=nextprev     #previous not for the pointer with minimum value
+        nextinner=current.getNext()     #node for next inner loop of selection sort
+        #inner loop of  selection sort
+        while nextinner!=None:
+
+            if minimum.getData()>nextinner.getData():   #finding minimum value pointer
+                beforesort=nextprev                     #setting values of pointer to minimum value pointer
+                minimum=nextinner
+            nextprev=nextinner
+            nextinner=nextinner.getNext()
+        # and we did not next next pointer of current node here is code
+        if current.getNext()==minimum :
+            minimumNext=minimum.getNext()   #pointer to next node pointed my minimum node
+            currentpre.setNext(minimum)     #nex pointer of pointer before the current node is to minimum node
+            minimum.setNext(current)        #set minimum next pointer of minimum node to current
+            current.setNext(minimumNext)    #set next pointer of current to next pointer pointed my my minimum pointer
+            current=minimum                 #set current to minimum
+
+        elif current.getNext()!=minimum and current!=minimum:
+                 currentNext=current.getNext()            #pointer pointed my the current node
+                 minimumNext=minimum.getNext()           #pointer to next node pointed my minimum node
+                 currentpre.setNext(minimum)               #set pre-current to minimum pointer
+                 minimum.setNext(currentNext)             #set next pointer of minimum node to currentNext pointer
+                 beforesort.setNext(current)                #setting pre pointer of sorted node to current pointer
+                 current.setNext(minimumNext)               #current pointer next pointer set to next of minimumNext
+                 current=minimum                             #set current to minimum
+        currentpre=current              #set pre-current to current
+        current=current.getNext()       #set current to current ->next
+     list.show()
+
+
+
+
+l=List()
+
+l.Add('apa')
+l.Add('bob')
+l.Add('abo')
+l.Add('charlie')
+l.Add('apple')
+selectionSort(l)
