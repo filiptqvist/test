@@ -1,0 +1,21 @@
+__author__ = 'max'
+import csv
+################
+#####LAS########
+################
+#Opening and cutting the files
+with open(r'/home/max/Hämtningar/maltparser-1.8/out.conll') as infile:
+    column23 = [ cols[6:8] for cols in csv.reader(infile, delimiter="\t") ]
+
+with open(r'/home/max/Hämtningar/maltparser-1.8/examples/data/swedish_dep_dev.conll') as infile:
+    column67_golden = [ cols[6:8] for cols in csv.reader(infile, delimiter="\t") ]
+
+apa = ['apa,apa','kalem','peterlemarc']
+#Reverting the list in list scenario(Back to strings)Doing this for the ease of use
+print('\n'.join(apa))
+
+#Comparing the two files.
+
+#for rows in
+
+
