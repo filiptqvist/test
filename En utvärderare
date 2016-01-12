@@ -18,4 +18,9 @@ print('\n'.join(apa))
 
 #for rows in
 
+HÄR ÄR REGEXPEN!
+
+r'[0-9]+\s(?:\b[A-ZÅÄÖa-zåäö]+)+.*
+
+DÄR VA DEN
 
