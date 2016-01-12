@@ -1,26 +1,35 @@
-__author__ = 'max'
 import csv
 ################
 #####LAS########
 ################
 #Opening and cutting the files
-with open(r'/home/max/Hämtningar/maltparser-1.8/out.conll') as infile:
+with open(r'/home/stp14/filtorn/syntactic_analysis/maltparser/out.conll') as infile:
     column23 = [ cols[6:8] for cols in csv.reader(infile, delimiter="\t") ]
 
-with open(r'/home/max/Hämtningar/maltparser-1.8/examples/data/swedish_dep_dev.conll') as infile:
+with open(r'/home/stp14/filtorn/syntactic_analysis/maltparser/swedish_dep_dev.conll') as infile:
     column67_golden = [ cols[6:8] for cols in csv.reader(infile, delimiter="\t") ]
 
-apa = ['apa,apa','kalem','peterlemarc']
+intersection_set = set(map(tuple, column23)) & set(map(tuple, column67_golden))
+
+intersection_list = list(map(list, intersection_set))
+
+#print(len(intersection_list))
+print(len(column67_golden))
+print(len(intersection_list))
+print(len(intersection_list)/len(column67_golden))
+
+
+
+
 #Reverting the list in list scenario(Back to strings)Doing this for the ease of use
-print('\n'.join(apa))
+
 
 #Comparing the two files.
 
 #for rows in
 
-HÄR ÄR REGEXPEN!
 
 r'[0-9]+\s(?:\b[A-ZÅÄÖa-zåäö]+)+.*
 
-DÄR VA DEN
+
 
