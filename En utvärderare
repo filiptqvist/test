@@ -1,35 +1,53 @@
 import csv
-################
-#####LAS########
-################
-#Opening and cutting the files
-with open(r'/home/stp14/filtorn/syntactic_analysis/maltparser/out.conll') as infile:
-    column23 = [ cols[6:8] for cols in csv.reader(infile, delimiter="\t") ]
+import re
 
-with open(r'/home/stp14/filtorn/syntactic_analysis/maltparser/swedish_dep_dev.conll') as infile:
-    column67_golden = [ cols[6:8] for cols in csv.reader(infile, delimiter="\t") ]
+out = []
+with open(r'C:\Users\Filip\PycharmProjects\SyntacticAnalysis2\out.conll') as infile:
+    for line in infile:
+        delEmptyLines = line.strip()
+        if delEmptyLines:
+            out.append(delEmptyLines)
+out = [w.replace('\t', ' ') for w in out]
 
-intersection_set = set(map(tuple, column23)) & set(map(tuple, column67_golden))
+dep_dev = []
+with open(r'C:\Users\Filip\PycharmProjects\SyntacticAnalysis2\swedish_dep_dev.conll') as infile:
+    for line in infile:
+        delEmptyLines = line.strip()
+        if delEmptyLines:
+            dep_dev.append(delEmptyLines)
+dep_dev = [w.replace('\t', ' ') for w in dep_dev]
 
-intersection_list = list(map(list, intersection_set))
 
+
+cleaned_out = []
+for line in out:
+    t = re.findall('r(?:\S+ ){5}(\S+)\s(\S+)', line)
+    cleaned_out.append(t)
+cleaned_out = [x for x in cleaned_out if x != []]
+print(cleaned_out)
+
+cleaned_dep_dev = []
+for line in dep_dev:
+    t = re.findall('r(?:\S+ ){5}(\S+)\s(\S+)', line)
+    cleaned_dep_dev.append(t)
+cleaned_dep_dev = [x for x in cleaned_dep_dev if x != []]
+print(cleaned_dep_dev)
+
+
+
+intersection_set = set(map(tuple, cleaned_out)) & set(map(tuple, cleaned_dep_dev))
+print(intersection_set)
+
+
+
+
+#print(len(intersection_set))
+print("LAS:",len(cleaned_dep_dev))
+#intersection_list = list(map(list, intersection_set))
+
+
+#print(len(column67_golden))
 #print(len(intersection_list))
-print(len(column67_golden))
-print(len(intersection_list))
-print(len(intersection_list)/len(column67_golden))
-
-
-
-
-#Reverting the list in list scenario(Back to strings)Doing this for the ease of use
-
-
-#Comparing the two files.
-
-#for rows in
-
-
-r'[0-9]+\s(?:\b[A-ZÅÄÖa-zåäö]+)+.*
-
+#print("LAS:",len(intersection_list)/len(column67_golden))
 
 
