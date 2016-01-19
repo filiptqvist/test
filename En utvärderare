@@ -50,4 +50,17 @@ print("LAS:",len(cleaned_dep_dev))
 #print(len(intersection_list))
 #print("LAS:",len(intersection_list)/len(column67_golden))
 
+    lemmings = 0
+
+    sentcorr = True
+
+    for line in out and dep_dev:
+        if line == '\n':
+            if sentcorr:
+                lemmings = + 1
+                print(lemmings)
+            sentcorr = True
+
+        elif line != line in out and dep_dev:
+            sentcorr = False
 
