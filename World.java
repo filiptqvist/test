@@ -367,3 +367,28 @@ public class World {
     }
   }
 }
+  public void ritaKvadrat() {   
+     this.turn(90);
+     this.move(30);
+     this.turn(90);
+     this.move(30);
+     this.turn(90);
+     this.move(30);
+     this.turn(90);
+     this.move(30);
+
+  void bounceWalls(int d) {
+    if (d > this.distClosestWall()) {
+      this.moveTo(200,200);
+    }
+    public int distClosestWall() {
+    int ymax = world.getHeight();
+    int xmax = world.getWidth();
+    
+    int xgroda = this.getXPos();
+    int ygroda = this.getYPos();
+   
+    int yresultat = (ymax - ygroda);
+    int xresultat = (xmax - xgroda);
+    
+    return Math.min(xresultat, yresultat);
